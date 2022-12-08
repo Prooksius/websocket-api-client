@@ -1,0 +1,94 @@
+.btn {
+  position: relative;
+  text-align: center;
+  -webkit-appearance: none;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  gap: 10px;
+  box-shadow: none;
+  border: 1px solid transparent;
+}
+.btn-transparent {
+  background-color: transparent;
+}
+.btn-blue {
+  background-color: #366eda;
+  color: #fff;
+}
+.btn-blue:hover {
+  background-color: #487de4;
+}
+.btn-red {
+  background-color: #ee1e36;
+  color: #fff;
+}
+.btn-black {
+  background-color: #363636;
+  color: #fff;
+}
+.btn-black:hover {
+  background-color: #434343;
+}
+.btn.btn-simple {
+  padding: 0;
+}
+.btn.btn-line {
+  height: 54px;
+}
+.btn.btn-white:hover {
+  background-color: #f8f8f8;
+}
+.btn.btn-simple:hover {
+  background-color: #ececec;
+}
+.btn.btn-simple:active {
+  background-color: #bebebe;
+}
+.btn.btn-simple-big {
+  padding: 13.3px;
+}
+.btn.btn-border,
+.btn.btn-simple-border {
+  border: 1px solid #d6d6d6;
+}
+.btn.btn-group-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn.btn-radio {
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #222;
+  text-decoration: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+.btn.btn-radio.active {
+  box-shadow: none;
+  color: var(--linkColor);
+}
+
+.btn.pending .loader {
+  width: 20px;
+  height: 20px;
+}
+.btn.pending .loader::before,
+.btn.pending .loader::after {
+  margin-left: -20px;
+  margin-top: -5px;
+  border-width: 5px;
+}

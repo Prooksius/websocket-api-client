@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "rootDir": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@layouts/*": ["layouts/*"],
+      "@pages/*": ["pages/*"],
+      "@store/*": ["store/*"],
+      "@router/*": ["router/*"],
+      "@assets/*": ["assets/*"],
+      "@config": ["config.ts"]
+    },
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "module": "commonJS",
+    "lib": ["es6", "dom"],
+    "target": "ES5",
+    "jsx": "react"
+  },
+  "exclude": ["node_modules", "build"]
+}

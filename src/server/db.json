@@ -1,0 +1,235 @@
+{
+  "domains": [
+    {
+      "created_at": "2022-07-06T05:50:14.854Z",
+      "deleted_at": "2022-07-06T05:50:14.854Z",
+      "name": "Domain 1",
+      "department_name": "Accountant",
+      "registrator_id": 4,
+      "server_id": 2,
+      "provider_id": 8,
+      "integration_cloudflare_status": true,
+      "integration_registrator_status": true,
+      "ns": [
+        "www.site.com"
+      ],
+      "whois_status": true,
+      "available_status": true,
+      "rkn_status": true,
+      "ssl_status": true,
+      "pagespeed_status": true,
+      "geo_status": [
+        ""
+      ],
+      "expirationtime_status": true,
+      "subdomains": [
+        {
+          "created_at": "2022-07-06T05:50:14.854Z",
+          "deleted_at": "2022-07-06T05:50:14.854Z",
+          "subdomain_name": "admin.site.com",
+          "a": "1",
+          "cname": "0",
+          "available_status": true,
+          "id": 2,
+          "monitoring_id": 7,
+          "domain_id": 1,
+          "available_condition": "available"
+        }
+      ],
+      "id": 1,
+      "monitoring_id": 35,
+      "registration_date": "2022-07-06T05:50:14.854Z",
+      "server_name": "Server 2",
+      "dns_hosting": "Hosting provider 8",
+      "registrator_name": "Registrator 4",
+      "whois_condition": "available",
+      "available_condition": "available",
+      "ssl_condition": "2022-07-06T05:50:14.854Z",
+      "rkn_condition": "available",
+      "pagespeed_condition": "available",
+      "geo_condition": [
+        ""
+      ],
+      "expirationtime_condition": "2022-07-06T05:50:14.854Z"
+    },
+    {
+      "created_at": "2022-07-06T05:50:14.854Z",
+      "deleted_at": "2022-07-06T05:50:14.854Z",
+      "name": "Domain 2",
+      "department_name": "Tech",
+      "registrator_id": 7,
+      "server_id": 3,
+      "provider_id": 12,
+      "integration_cloudflare_status": true,
+      "integration_registrator_status": true,
+      "ns": [
+        "www.new-site.com"
+      ],
+      "whois_status": true,
+      "available_status": true,
+      "rkn_status": true,
+      "ssl_status": true,
+      "pagespeed_status": true,
+      "geo_status": [
+        ""
+      ],
+      "expirationtime_status": true,
+      "subdomains": [
+        {
+          "created_at": "2022-07-06T05:50:14.854Z",
+          "deleted_at": "2022-07-06T05:50:14.854Z",
+          "subdomain_name": "admin.new-site.com",
+          "a": "1",
+          "cname": "0",
+          "available_status": true,
+          "id": 2,
+          "monitoring_id": 7,
+          "domain_id": 1,
+          "available_condition": "available"
+        }
+      ],
+      "id": 2,
+      "monitoring_id": 16,
+      "registration_date": "2022-07-06T05:50:14.854Z",
+      "server_name": "Server 3",
+      "dns_hosting": "Hosting provider 12",
+      "registrator_name": "Registrator 7",
+      "whois_condition": "available",
+      "available_condition": "available",
+      "ssl_condition": "2022-07-06T05:50:14.854Z",
+      "rkn_condition": "available",
+      "pagespeed_condition": "available",
+      "geo_condition": [
+        ""
+      ],
+      "expirationtime_condition": "2022-07-06T05:50:14.854Z"
+    },
+    {
+      "created_at": "2022-07-07T07:58:02.156Z",
+      "deleted_at": null,
+      "name": "my-domain.com",
+      "available_status": true,
+      "available_condition": "available",
+      "department_name": "Tech",
+      "expirationtime_status": true,
+      "expirationtime_condition": "available",
+      "geo_condition": [
+        ""
+      ],
+      "geo_status": [
+        ""
+      ],
+      "integration_cloudflare_status": false,
+      "integration_registrator_status": false,
+      "monitoring_id": 14,
+      "ns": [
+        "333333",
+        "444444",
+        "555555",
+        "6786786786"
+      ],
+      "pagespeed_status": true,
+      "provider_id": 23,
+      "registrator_id": 35,
+      "registrator_name": "Регистратор 35",
+      "server_id": 16,
+      "server_name": "Сервер 16",
+      "rkn_status": true,
+      "ssl_status": true,
+      "whois_status": true,
+      "subdomains": [
+        {
+          "created_at": "2022-07-07T07:58:02.156Z",
+          "deleted_at": null,
+          "subdomain_name": "111.my-domain.com",
+          "a": "111.my-domain.com",
+          "cname": "",
+          "available_status": true,
+          "available_condition": "available"
+        },
+        {
+          "created_at": "2022-07-07T07:58:02.156Z",
+          "deleted_at": null,
+          "subdomain_name": "222.my-domain.com",
+          "a": "",
+          "cname": "222.my-domain.com",
+          "available_status": true,
+          "available_condition": "available"
+        }
+      ],
+      "registration_date": "2022-07-07T07:58:02.156Z",
+      "whois_condition": "available",
+      "id": 3
+    }
+  ],
+  "errors": [
+    {
+      "created_at": "2022-06-03 13:12:11.202793",
+      "deleted_at": null,
+      "server_status": "down",
+      "whois_status": true,
+      "whois_condition": "unavailable",
+      "available_status": true,
+      "available_condition": "available",
+      "ssl_status": true,
+      "ssl_condition": "2022-08-29T08:29:45",
+      "rkn_status": true,
+      "rkn_condition": "available",
+      "pagespeed_status": false,
+      "pagespeed_condition": null,
+      "geo_status": [
+        "ru"
+      ],
+      "geo_condition": [],
+      "expirationtime_status": false,
+      "expirationtime_condition": "2028-09-14T04:00:00",
+      "id": 5,
+      "name": "google.com",
+      "department_name": "Tech",
+      "registrator_id": 2,
+      "server_id": 3,
+      "provider_id": 2,
+      "integration_cloudflare_status": false,
+      "integration_registrator_status": false,
+      "ns": [
+        "ns1"
+      ],
+      "monitoring_id": 8,
+      "registration_date": null
+    },
+    {
+      "created_at": "2022-06-21 07:00:36.745006",
+      "deleted_at": null,
+      "server_status": "down",
+      "whois_status": false,
+      "whois_condition": null,
+      "available_status": true,
+      "available_condition": "available",
+      "ssl_status": true,
+      "ssl_condition": null,
+      "rkn_status": true,
+      "rkn_condition": "unavailable",
+      "pagespeed_status": false,
+      "pagespeed_condition": null,
+      "geo_status": [
+        "ru"
+      ],
+      "geo_condition": [],
+      "expirationtime_status": true,
+      "expirationtime_condition": "2028-04-21T15:49:39",
+      "id": 6,
+      "name": "refactoring.guru",
+      "department_name": "tech",
+      "registrator_id": 2,
+      "server_id": 3,
+      "provider_id": 2,
+      "integration_cloudflare_status": false,
+      "integration_registrator_status": false,
+      "ns": [
+        "ns1"
+      ],
+      "monitoring_id": 12,
+      "registration_date": "2014-04-21 15:49:39"
+    }
+  ]
+}
