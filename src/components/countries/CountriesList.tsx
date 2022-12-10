@@ -120,7 +120,7 @@ export const CountriesList: React.FC = () => {
             width: "0.5 1",
             getValue: (row) => (
               <img
-                src={"https://proksi-design.ru" + row.flag}
+                src={"http://websockets-api.proksi-design.ru/" + row.flag}
                 style={{ maxHeight: "20px" }}
               />
             ),

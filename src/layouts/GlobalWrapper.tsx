@@ -37,6 +37,7 @@ import {
 } from "@store/slices/botsSlice"
 import type { ServerGetResponse } from "@store/index"
 import { REACT_APP_API_URL, toastAlert } from "@config"
+import classNames from "classnames"
 
 const PAGE_TITLE = "Вход"
 
@@ -73,6 +74,14 @@ const GlobalWrapper: React.FC = ({ children }) => {
       })
     )
   }
+  useEffect(() => {
+    if (logged) {
+      setLogin("")
+      setPassword("")
+    }
+    // eslint-disable-next-line
+  }, [logged])
+
   useEffect(() => {
     const startWsApi = new WebSocket(REACT_APP_API_URL)
     setWsApi(startWsApi)
@@ -176,16 +185,41 @@ const GlobalWrapper: React.FC = ({ children }) => {
         <MainLayout title={PAGE_TITLE} h1={PAGE_TITLE}>
           <div className="page-contents">
             {!connected && <h3>Соединение с сервером</h3>}
-            {loggedStatus === "loading" && <h3>Авторизация...</h3>}
-            {loggedStatus !== "loading" && (
+            {connected && loggedStatus === "loading" && <h3>Авторизация...</h3>}
+            {connected && loggedStatus !== "loading" && (
               <>
                 <h3>Вы не авторизованы</h3>
                 <br />
-                <input type="text" onChange={(e) => setLogin(e.target.value)} />
-                <input
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="form__row">
+                  <div className="col-lg-6 col-md-6 col-sm-12">
+                    <div
+                      className={classNames("form-field", {
+                        hasValue: login != "",
+                      })}
+                    >
+                      <input
+                        type="text"
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
+                      />
+                      <label>Логин</label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-12">
+                    <div
+                      className={classNames("form-field", {
+                        hasValue: password != "",
+                      })}
+                    >
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <label>Пароль</label>
+                    </div>
+                  </div>
+                </div>
                 <button
                   type="button"
                   className="btn btn-blue"

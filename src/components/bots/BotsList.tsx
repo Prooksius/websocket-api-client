@@ -111,7 +111,7 @@ export const BotsList: React.FC = () => {
             width: "0.5 1",
             getValue: (row) => (
               <img
-                src={"https://proksi-design.ru" + row.image}
+                src={"http://websockets-api.proksi-design.ru/" + row.image}
                 style={{ maxHeight: "20px" }}
               />
             ),
