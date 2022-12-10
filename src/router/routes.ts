@@ -37,7 +37,7 @@ export const routes: RouteItem[] = [
     Icon: UsersIcon,
     Component: Bots,
     navShown: true,
-    auth: false,
+    auth: true,
     subRoutes: [],
   },
   {
@@ -46,12 +46,12 @@ export const routes: RouteItem[] = [
     Icon: ServersIcon,
     Component: Countries,
     navShown: true,
-    auth: false,
+    auth: true,
     subRoutes: [],
   },
   {
     path: "/customer",
-    name: "Личный кабинет",
+    name: "Кабинет",
     Icon: DomainsIcon,
     Component: Customer,
     navShown: true,

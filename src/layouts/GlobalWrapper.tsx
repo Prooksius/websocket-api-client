@@ -1,119 +1,191 @@
-import React, { ReactChildren, ReactElement, ReactNode, useEffect } from "react"
+import React, {
+  ReactChildren,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react"
 import { useSearchParams, useNavigate, Navigate } from "react-router-dom"
 import MainLayout from "@layouts/MainLayout"
 import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch } from "@store/store"
 import {
-  checkToken,
   isLogged,
   listAuthStatus,
+  setCustomer,
+  startAuth,
+  endAuth,
+  login as customerLogin,
 } from "@store/slices/customersSlice"
 import {
-  listFilterChanges as listProvidersFilterChanges,
-  fetchPage as fetchProvidersPage,
-} from "@store/slices/providersSlice"
-import {
-  fetchServersPage,
-  listServersFilterChanges,
-} from "@store/slices/serversSlice"
-import {
-  fetchDomainPage,
-  listDomainsFilterChanges,
-} from "@store/slices/domainsSlice"
-import {
-  listFilterChanges as listErrorsFilterChanges,
-  fetchPage as fetchErrorsPage,
-} from "@store/slices/botsSlice"
-import {
-  listEmailsFilterChanges,
-  fetchEmailsPage,
+  listFilterChanges as listCountriesFilterChanges,
+  loadList as loadCountriesList,
+  requestPage as requestCountriesPage,
+  listPage as listCountriesPage,
+  listSort as listCountriesSort,
+  listItemsInPage as listCountriesItemsInPage,
+  reloadPage as reloadCountriesPage,
 } from "@store/slices/countriesSlice"
 import {
-  listRegistratorsFilterChanges,
-  fetchRegistratorsPage,
-} from "@store/slices/registratorsSlice"
-import { REACT_APP_SSO_URL } from "@config"
+  listFilterChanges as listBotsFilterChanges,
+  loadList as loadBotsList,
+  requestPage as requestBotsPage,
+  listPage as listBotsPage,
+  listSort as listBotsSort,
+  listItemsInPage as listBotsItemsInPage,
+  reloadPage as reloadBotsPage,
+} from "@store/slices/botsSlice"
+import type { ServerGetResponse } from "@store/index"
+import { REACT_APP_API_URL, toastAlert } from "@config"
 
 const PAGE_TITLE = "Вход"
 
 const GlobalWrapper: React.FC = ({ children }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
-  const providersFilterChanges = useSelector(listProvidersFilterChanges)
-  const serversFilterChanges = useSelector(listServersFilterChanges)
-  const domainsFilterChanges = useSelector(listDomainsFilterChanges)
-  const errorsFilterChanges = useSelector(listErrorsFilterChanges)
-  const emailsFilterChanges = useSelector(listEmailsFilterChanges)
-  const registratorsFilterChanges = useSelector(listRegistratorsFilterChanges)
+  const [wsApi, setWsApi] = useState<WebSocket>(null)
+  const [connected, setConnected] = useState(false)
+  const [login, setLogin] = useState("")
+  const [password, setPassword] = useState("")
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const newToken = searchParams.get("token")
-  if (newToken) {
-    localStorage.setItem("token", newToken)
-  }
+  const countriesFilterChanges = useSelector(listCountriesFilterChanges)
+  const botsFilterChanges = useSelector(listBotsFilterChanges)
 
-  const token = localStorage.getItem("token")
+  const countriesPage = useSelector(listCountriesPage)
+  const countriesSort = useSelector(listCountriesSort)
+  const countriesItemsInPage = useSelector(listCountriesItemsInPage)
+
+  const botsPage = useSelector(listBotsPage)
+  const botsSort = useSelector(listBotsSort)
+  const botsItemsInPage = useSelector(listBotsItemsInPage)
 
   const logged = useSelector(isLogged)
   const loggedStatus = useSelector(listAuthStatus)
 
   const goToLogin = () => {
-    window.location.href = REACT_APP_SSO_URL
+    dispatch(startAuth())
+    wsApi.send(
+      JSON.stringify({
+        entity: "customer",
+        method: "login",
+        params: { login, password },
+      })
+    )
   }
-
   useEffect(() => {
+    const startWsApi = new WebSocket(REACT_APP_API_URL)
+    setWsApi(startWsApi)
+
+    const token = localStorage.getItem("token")
     if (token) {
-      dispatch(checkToken())
-    } else {
-      navigate("/")
+      dispatch(customerLogin(token))
+    }
+    startWsApi.onopen = (event: Event) => {
+      console.log("Websocket API connection opened")
+      setConnected(true)
+    }
+
+    startWsApi.onmessage = (event: MessageEvent) => {
+      const data: ServerGetResponse<any> = JSON.parse(event.data)
+      console.log("data", data)
+      if (data.status === "success") {
+        if (data.entity === "customer") {
+          if (data.method === "login") {
+            dispatch(customerLogin(data.data.token))
+          } else if (data.method === "register") {
+            toastAlert(data.data?.message, "success")
+          } else if (data.method === "identity") {
+            dispatch(setCustomer(data.data))
+          }
+        } else if (data.entity === "country") {
+          if (data.method === "list") {
+            dispatch(loadCountriesList(data.data))
+          }
+        } else if (data.entity === "bot") {
+          if (data.method === "list") {
+            dispatch(loadBotsList(data.data))
+          }
+        }
+      } else {
+        toastAlert(data.message, "error")
+        if (data.entity === "customer") {
+          dispatch(endAuth(false))
+        }
+      }
+    }
+
+    startWsApi.onclose = (event: CloseEvent) => {
+      setConnected(false)
+      console.log("Websocket API connection closed")
+      console.log("Close connection reason", event.reason)
+      //wsApi = new WebSocket("ws://proksi-design.ru:2380")
+    }
+
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    //dispatch(requestCountriesPage())
+    if (connected) {
+      console.log("sending countries request")
+      wsApi.send(
+        JSON.stringify({
+          entity: "country",
+          method: "list",
+          params: {
+            sort: countriesSort ? countriesSort.replace("-", "") : "",
+            order: countriesSort.charAt(0) === "-" ? "DESC" : "ASC",
+            page: countriesPage,
+            limit: countriesItemsInPage,
+            language_id: "ru-RU",
+          },
+        })
+      )
     }
     // eslint-disable-next-line
-  }, [token])
+  }, [countriesFilterChanges])
 
   useEffect(() => {
-    if (providersFilterChanges) dispatch(fetchProvidersPage())
-    // eslint-disable-next-line
-  }, [providersFilterChanges])
-
-  useEffect(() => {
-    if (serversFilterChanges) dispatch(fetchServersPage())
-    // eslint-disable-next-line
-  }, [serversFilterChanges])
-
-  useEffect(() => {
-    if (domainsFilterChanges) {
-      dispatch(fetchDomainPage())
+    if (botsFilterChanges) {
+      //dispatch(requestBotsPage())
+      if (connected) {
+        console.log("sending bots request")
+        wsApi.send(
+          JSON.stringify({
+            entity: "bot",
+            method: "list",
+            params: {
+              sort: botsSort ? botsSort.replace("-", "") : "",
+              order: botsSort.charAt(0) === "-" ? "DESC" : "ASC",
+              page: botsPage,
+              limit: botsItemsInPage,
+              language_id: "ru-RU",
+            },
+          })
+        )
+      }
     }
     // eslint-disable-next-line
-  }, [domainsFilterChanges])
-
-  useEffect(() => {
-    if (errorsFilterChanges) dispatch(fetchErrorsPage())
-    // eslint-disable-next-line
-  }, [errorsFilterChanges])
-
-  useEffect(() => {
-    if (emailsFilterChanges) dispatch(fetchEmailsPage())
-    // eslint-disable-next-line
-  }, [emailsFilterChanges])
-
-  useEffect(() => {
-    if (registratorsFilterChanges) dispatch(fetchRegistratorsPage())
-    // eslint-disable-next-line
-  }, [registratorsFilterChanges])
+  }, [botsFilterChanges])
 
   return (
     <>
-      {logged && children}
+      {logged && connected && children}
       {!logged && (
         <MainLayout title={PAGE_TITLE} h1={PAGE_TITLE}>
           <div className="page-contents">
+            {!connected && <h3>Соединение с сервером</h3>}
             {loggedStatus === "loading" && <h3>Авторизация...</h3>}
-            {((loggedStatus !== "loading" && !token) ||
-              (loggedStatus === "failed" && token)) && (
+            {loggedStatus !== "loading" && (
               <>
                 <h3>Вы не авторизованы</h3>
                 <br />
+                <input type="text" onChange={(e) => setLogin(e.target.value)} />
+                <input
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <button
                   type="button"
                   className="btn btn-blue"

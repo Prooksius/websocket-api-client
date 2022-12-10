@@ -7,11 +7,8 @@ import { ErrorPayloadData } from "@components/app/forms/formWrapper/types"
 
 const MySwal = withReactContent(Swal)
 
-export const APP_TITLE = "DMS"
-export const REACT_APP_DB_URL = process.env.REACT_APP_DB_URL
-export const REACT_APP_SSO_URL = process.env.REACT_APP_SSO_URL
-//export const REACT_APP_DB_URL = "https://dev.seodms.com/api/v1.0"
-//export const REACT_APP_SSO_URL = "https://sso.seoreserved.ru/auth?service=dms_local"
+export const APP_TITLE = "APP"
+export const REACT_APP_API_URL = "ws://proksi-design.ru:2380"
 
 let lastId = 0
 
@@ -61,18 +58,6 @@ export function pluralName(n: number, lang = "ru-RU"): number {
   } else {
     return 0
   }
-}
-
-export function errorToastText(payload: ErrorPayloadData): string {
-  const errors: string[] = []
-  if (typeof payload.detail !== "string") {
-    payload.detail.map((detail) => {
-      errors.push("где: " + detail.loc.join(", ") + ", " + detail.msg)
-    })
-  } else {
-    errors.push(payload.detail)
-  }
-  return errors.join(", ")
 }
 
 export function toastAlert(title: string, type = "info") {

@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { errorToastText, toastAlert } from "@config"
 import { StatusType } from "@components/app/forms/formWrapper/types"
-import { RootState } from "@store/index"
+import type { ListPayload, RootState } from "@store/index"
 
 export interface BotsRecord {
   id: number
@@ -52,11 +51,12 @@ export const errorsSlice = createSlice({
   name: "bots",
   initialState,
   reducers: {
-    startLoading: (state) => {
+    requestPage: (state) => {
       state.status = "loading"
     },
-    loadList: (state, { payload }: PayloadAction<BotsRecord[]>) => {
-      state.list = payload
+    loadList: (state, { payload }: PayloadAction<ListPayload<BotsRecord>>) => {
+      state.list = payload.list
+      state.itemsCount = payload.count
       state.status = "succeeded"
     },
     setPage: (state, { payload }: PayloadAction<number>) => {
@@ -101,7 +101,7 @@ export const errorsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  startLoading,
+  requestPage,
   loadList,
   setSearch,
   setPage,

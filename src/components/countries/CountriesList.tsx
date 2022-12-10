@@ -29,6 +29,7 @@ import { SearchEntity } from "@components/app/SearchEntity"
 import { PaginationDataGrid } from "@components/app/PaginationDataGrid"
 import { PlusIcon } from "@components/app/icons/PlusIcon"
 import { DotsIcon } from "@components/app/icons/DotsIcon"
+import type { AppDispatch } from "@store/store"
 
 export const CountriesList: React.FC = () => {
   const [editId, setEditId] = useState(0)
@@ -36,7 +37,7 @@ export const CountriesList: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   const itemsList = useSelector(listItems)
   const status = useSelector(listStatus)
@@ -102,7 +103,7 @@ export const CountriesList: React.FC = () => {
       <PaginationDataGrid
         status={status}
         getExpanded={() => ""}
-        rowHeight={62}
+        rowHeight={67}
         data={itemsList}
         page={page}
         sort={sort}
@@ -116,14 +117,17 @@ export const CountriesList: React.FC = () => {
         columns={[
           {
             title: "Флаг",
-            width: "1 1",
+            width: "0.5 1",
             getValue: (row) => (
-              <img src={"https://proksi-design.ru/" + row.flag} />
+              <img
+                src={"https://proksi-design.ru" + row.flag}
+                style={{ maxHeight: "20px" }}
+              />
             ),
           },
           {
             title: "Название",
-            width: "1 1",
+            width: "2 1",
             sort: "name",
             sortTitle: "названию",
             getValue: (row) => (
@@ -146,8 +150,17 @@ export const CountriesList: React.FC = () => {
             ),
           },
           {
+            title: "ISO код",
+            width: "0.5 1",
+            sort: "iso_code_2",
+            sortTitle: "ISO коду",
+            getValue: (row) => row.iso_code_2,
+          },
+          {
             title: "Популярность",
-            width: "1 1",
+            width: "0.5 1",
+            sort: "popularity",
+            sortTitle: "популярности",
             getValue: (row) => row.popularity,
           },
           {

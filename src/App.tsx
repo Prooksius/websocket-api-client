@@ -36,9 +36,6 @@ function App() {
               .filter((item) => item.auth === false || item.auth === logged)
               .map(({ path, Component, subRoutes }) => (
                 <Route key={path} path={path} element={<Component />}>
-                  {subRoutes.length > 0 && path === "/accounts" && (
-                    <Route index element={<Navigate to={"accounts"} />} />
-                  )}
                   {subRoutes.length > 0 &&
                     subRoutes.map(
                       ({

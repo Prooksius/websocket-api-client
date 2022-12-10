@@ -32,6 +32,12 @@ export const customersSlice = createSlice({
   name: "customers",
   initialState,
   reducers: {
+    startAuth: (state) => {
+      state.status = "loading"
+    },
+    endAuth: (state, { payload }: { payload: boolean }) => {
+      state.status = payload ? "succeeded" : "failed"
+    },
     login: (state, { payload }: PayloadAction<string>) => {
       state.status = "succeeded"
       state.logged = true
@@ -52,7 +58,7 @@ export const customersSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { logout } = customersSlice.actions
+export const { startAuth, endAuth, login, logout, setCustomer } = customersSlice.actions
 
 export default customersSlice.reducer
 

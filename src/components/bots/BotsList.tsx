@@ -107,6 +107,16 @@ export const BotsList: React.FC = () => {
             ),
           },
           {
+            title: "Флаг",
+            width: "0.5 1",
+            getValue: (row) => (
+              <img
+                src={"https://proksi-design.ru" + row.image}
+                style={{ maxHeight: "20px" }}
+              />
+            ),
+          },
+          {
             title: "Название",
             width: "2 1",
             getValue: (row) => row.name,

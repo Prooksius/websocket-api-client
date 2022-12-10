@@ -1,13 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { errorToastText, toastAlert } from "@config"
 import { RootState } from "@store/store"
-import {
-  FieldsData,
-  StatusType,
-  SelectValue,
-  ErrorPayloadData,
-} from "@components/app/forms/formWrapper/types"
+import { StatusType } from "@components/app/forms/formWrapper/types"
+import { ListPayload } from ".."
 
 export interface CountriesRecord {
   id: number
@@ -43,17 +38,10 @@ interface CountriesState {
   selectedIds: number[]
 }
 
-type CountriesListPayload = {
-  page: number
-  limit: number
-  count: number
-  list: CountriesRecord[]
-}
-
 const initialState: CountriesState = {
   list: [],
   page: 1,
-  itemsInPage: 10,
+  itemsInPage: 7,
   itemsCount: 0,
   sort: "",
   status: "idle",
@@ -69,11 +57,15 @@ export const CountriesSlice = createSlice({
   name: "countries",
   initialState,
   reducers: {
-    startLoading: (state) => {
+    requestPage: (state) => {
       state.status = "loading"
     },
-    loadList: (state, { payload }: PayloadAction<CountriesRecord[]>) => {
-      state.list = payload
+    loadList: (
+      state,
+      { payload }: PayloadAction<ListPayload<CountriesRecord>>
+    ) => {
+      state.list = payload.list
+      state.itemsCount = payload.count
       state.status = "succeeded"
     },
     setPage: (state, { payload }: PayloadAction<number>) => {
@@ -125,7 +117,7 @@ export const CountriesSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  startLoading,
+  requestPage,
   loadList,
   setSearch,
   setPage,
