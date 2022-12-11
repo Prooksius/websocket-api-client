@@ -7,6 +7,7 @@ export interface CustomersRecord {
   id: number
   created_at: number
   updated_at: number
+  login: string
   name: string
   email: string
   status: number

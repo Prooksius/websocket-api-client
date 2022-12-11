@@ -17,9 +17,16 @@ import Home from "@pages/Home"
 import GlobalWrapper from "@layouts/GlobalWrapper"
 import { useSelector } from "react-redux"
 import { isLogged } from "@store/slices/customersSlice"
+import { ServerRequestState } from "@components/app/hooks/ServerRequestState"
+import { ServerRequestData } from "./store"
 
 function App() {
   const logged = useSelector(isLogged)
+
+  const serverRequestData: ServerRequestData = {
+    serverRequest: null,
+    requestCount: 0,
+  }
 
   useEffect(() => {
     //loadReCaptcha("6Ld8b-kaAAAAAKKyKxG3w3RW0hCxqBelwko_jTFZ")
@@ -30,30 +37,32 @@ function App() {
     <HelmetProvider>
       <Helmet />
       <BrowserRouter>
-        <GlobalWrapper>
-          <Routes location={window.location}>
-            {routes
-              .filter((item) => item.auth === false || item.auth === logged)
-              .map(({ path, Component, subRoutes }) => (
-                <Route key={path} path={path} element={<Component />}>
-                  {subRoutes.length > 0 &&
-                    subRoutes.map(
-                      ({
-                        path: subPath,
-                        Component: SubComponent,
-                        subRoutes: subRoutes2,
-                      }) => (
-                        <Route
-                          key={path + "-" + subPath}
-                          path={subPath}
-                          element={<SubComponent />}
-                        />
-                      )
-                    )}
-                </Route>
-              ))}
-          </Routes>
-        </GlobalWrapper>
+        <ServerRequestState serverRequestData={serverRequestData}>
+          <GlobalWrapper>
+            <Routes location={window.location}>
+              {routes
+                .filter((item) => item.auth === false || item.auth === logged)
+                .map(({ path, Component, subRoutes }) => (
+                  <Route key={path} path={path} element={<Component />}>
+                    {subRoutes.length > 0 &&
+                      subRoutes.map(
+                        ({
+                          path: subPath,
+                          Component: SubComponent,
+                          subRoutes: subRoutes2,
+                        }) => (
+                          <Route
+                            key={path + "-" + subPath}
+                            path={subPath}
+                            element={<SubComponent />}
+                          />
+                        )
+                      )}
+                  </Route>
+                ))}
+            </Routes>
+          </GlobalWrapper>
+        </ServerRequestState>
         <ToastContainer
           position="top-right"
           autoClose={2000}
