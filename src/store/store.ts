@@ -3,6 +3,7 @@ import globalsReducer from "@store/slices/globalsSlice"
 import customersReducer from "@store/slices/customersSlice"
 import countriesReducer from "@store/slices/countriesSlice"
 import botsReducer from "@store/slices/botsSlice"
+import websocketsMiddleware from './websocketsMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,9 @@ export const store = configureStore({
     customers: customersReducer,
     countries: countriesReducer,
     bots: botsReducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat([websocketsMiddleware])
   },
 })
 

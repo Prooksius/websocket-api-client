@@ -1,22 +1,24 @@
-import { ServerRequestContext } from "@components/app/hooks/serverRequestContext"
-import React, { useContext, useEffect } from "react"
-import { useSelector } from "react-redux"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { listCustomer } from "@store/slices/customersSlice"
+import { AppDispatch } from "@store/store"
+import { sendRequest } from "@store/slices/globalsSlice"
 
 const CustomerDetails: React.FC = () => {
-  const { serverRequestData, setServerRequest, clearServerRequest } =
-    useContext(ServerRequestContext)
+  const dispatch = useDispatch<AppDispatch>()
 
   const customer = useSelector(listCustomer)
 
   useEffect(() => {
     if (!customer) {
-      setServerRequest({
-        entity: "customer",
-        method: "identity",
-        params: {},
-        token: localStorage.getItem("token"),
-      })
+      dispatch(
+        sendRequest({
+          entity: "customer",
+          method: "identity",
+          params: {},
+          token: localStorage.getItem("token"),
+        })
+      )
     }
     // eslint-disable-next-line
   }, [])
