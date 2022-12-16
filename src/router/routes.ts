@@ -10,6 +10,7 @@ import { FC } from "react"
 import Bots from "@pages/Bots"
 import Countries from "@pages/Countries"
 import Customer from "@pages/Customer"
+import CryptocoinsPrice from "@pages/CryptocoinsPrice"
 
 interface RouteItem {
   path: string
@@ -36,6 +37,15 @@ export const routes: RouteItem[] = [
     name: "Лицензии",
     Icon: UsersIcon,
     Component: Bots,
+    navShown: true,
+    auth: true,
+    subRoutes: [],
+  },
+  {
+    path: "/cryptocoins_price",
+    name: "Монеты",
+    Icon: UsersIcon,
+    Component: CryptocoinsPrice,
     navShown: true,
     auth: true,
     subRoutes: [],

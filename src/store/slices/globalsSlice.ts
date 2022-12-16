@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { RootState, ServerRequest } from "@store/index"
+import { RootState } from "@store/index"
+import { ServerRequest } from "@store/store"
 
 interface GlobalState {
   showTootip: boolean

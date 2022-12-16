@@ -4,22 +4,17 @@ import { StatusType } from "@components/app/forms/formWrapper/types"
 import type { RootState } from "@store/index"
 import { ListPayload } from "@store/store"
 
-export interface BotsRecord {
+export interface CryptocoinsPriceRecord {
   id: number
   created_at: number
-  updated_at: number
-  name: string
-  level: number
-  image: string
-  color: string
+  stock: number
+  market: number
+  asset: string
   price: number
-  sort_order: number
-  status: number
-  record_open?: boolean
 }
 
-interface ErrorsState {
-  list: BotsRecord[]
+interface CryptocoinsPriceState {
+  list: CryptocoinsPriceRecord[]
   page: number
   itemsInPage: number
   itemsCount: number
@@ -33,10 +28,10 @@ interface ErrorsState {
   selectedIds: number[]
 }
 
-const initialState: ErrorsState = {
+const initialState: CryptocoinsPriceState = {
   list: [],
   page: 1,
-  itemsInPage: 10,
+  itemsInPage: 7,
   itemsCount: 0,
   sort: "",
   status: "idle",
@@ -48,14 +43,17 @@ const initialState: ErrorsState = {
   selectedIds: [],
 }
 
-export const errorsSlice = createSlice({
-  name: "bots",
+export const cryptocoinsPriceSlice = createSlice({
+  name: "cryptocoinsPrice",
   initialState,
   reducers: {
     requestPage: (state) => {
       state.status = "loading"
     },
-    loadList: (state, { payload }: PayloadAction<ListPayload<BotsRecord>>) => {
+    loadList: (
+      state,
+      { payload }: PayloadAction<ListPayload<CryptocoinsPriceRecord>>
+    ) => {
       state.list = payload.list
       state.itemsCount = payload.count
       state.status = "succeeded"
@@ -91,12 +89,6 @@ export const errorsSlice = createSlice({
     reloadPage: (state) => {
       state.filterChanges++
     },
-    toggleOpen: (state, { payload }: PayloadAction<number>) => {
-      const found = state.list.find((item) => item.id === payload)
-      if (found) {
-        found.record_open = !found.record_open
-      }
-    },
   },
 })
 
@@ -109,25 +101,20 @@ export const {
   setSort,
   setSelected,
   setItemsInPage,
-  toggleOpen,
   reloadPage,
-} = errorsSlice.actions
+} = cryptocoinsPriceSlice.actions
 
-export default errorsSlice.reducer
+export default cryptocoinsPriceSlice.reducer
 
-export const listState = (state: RootState) => state.bots
-export const listItems = (state: RootState) => state.bots.list
-export const listStatus = (state: RootState) => state.bots.status
-export const listLoaded = (state: RootState) => state.bots.loaded
-export const listPage = (state: RootState) => state.bots.page
-export const listError = (state: RootState) => state.bots.error
-export const listSort = (state: RootState) => state.bots.sort
-export const listSearch = (state: RootState) => state.bots.search
-export const listSelectedIds = (state: RootState) => state.bots.selectedIds
-export const listItemsInPage = (state: RootState) => state.bots.itemsInPage
-export const listItemsCount = (state: RootState) => state.bots.itemsCount
-export const listFilterChanges = (state: RootState) => state.bots.filterChanges
-
-export const selectItemById = (state: RootState, id: number) => {
-  return state.bots.list.find((error: BotsRecord) => error.id === id)
-}
+export const listState = (state: RootState) => state.cryptocoinsPrice
+export const listItems = (state: RootState) => state.cryptocoinsPrice.list
+export const listStatus = (state: RootState) => state.cryptocoinsPrice.status
+export const listLoaded = (state: RootState) => state.cryptocoinsPrice.loaded
+export const listPage = (state: RootState) => state.cryptocoinsPrice.page
+export const listError = (state: RootState) => state.cryptocoinsPrice.error
+export const listSort = (state: RootState) => state.cryptocoinsPrice.sort
+export const listSearch = (state: RootState) => state.cryptocoinsPrice.search
+export const listSelectedIds = (state: RootState) => state.cryptocoinsPrice.selectedIds
+export const listItemsInPage = (state: RootState) => state.cryptocoinsPrice.itemsInPage
+export const listItemsCount = (state: RootState) => state.cryptocoinsPrice.itemsCount
+export const listFilterChanges = (state: RootState) => state.cryptocoinsPrice.filterChanges

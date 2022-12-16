@@ -3,18 +3,9 @@ import { useSearchParams, useNavigate, Navigate } from "react-router-dom"
 import MainLayout from "@layouts/MainLayout"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch } from "@store/store"
-import {
-  listFilterChanges as listCountriesFilterChanges,
-  listPage as listCountriesPage,
-  listSort as listCountriesSort,
-  listItemsInPage as listCountriesItemsInPage,
-} from "@store/slices/countriesSlice"
-import {
-  listFilterChanges as listBotsFilterChanges,
-  listPage as listBotsPage,
-  listSort as listBotsSort,
-  listItemsInPage as listBotsItemsInPage,
-} from "@store/slices/botsSlice"
+import { listState as listCountriesState } from "@store/slices/countriesSlice"
+import { listState as listBotsState } from "@store/slices/botsSlice"
+import { listState as listCoinsState } from "@store/slices/cryptocoinsPriceSlice"
 import {
   isLogged,
   listAuthStatus,
@@ -35,11 +26,11 @@ type EnitiyParamsDetails = {
   filterChanges: number
 }
 
+const PAGE_TITLE = "Вход"
+
 interface EnitiyParamsData extends Record<string, EnitiyParamsDetails> {
   [key: string]: EnitiyParamsDetails
 }
-
-const PAGE_TITLE = "Вход"
 
 const GlobalWrapper: React.FC = ({ children }) => {
   const dispatch = useDispatch<AppDispatch>()
@@ -48,6 +39,9 @@ const GlobalWrapper: React.FC = ({ children }) => {
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
 
+  const countries = useSelector(listCountriesState)
+  const bots = useSelector(listBotsState)
+  const cryptocoinsPrice = useSelector(listCoinsState)
   const connected = useSelector(listConnected)
 
   const logged = useSelector(isLogged)
@@ -55,16 +49,22 @@ const GlobalWrapper: React.FC = ({ children }) => {
 
   const enitiyParams: EnitiyParamsData = {
     country: {
-      page: useSelector(listCountriesPage),
-      sort: useSelector(listCountriesSort),
-      itemsInPage: useSelector(listCountriesItemsInPage),
-      filterChanges: useSelector(listCountriesFilterChanges),
+      page: countries.page,
+      sort: countries.sort,
+      itemsInPage: countries.itemsInPage,
+      filterChanges: countries.filterChanges,
     },
     bot: {
-      page: useSelector(listBotsPage),
-      sort: useSelector(listBotsSort),
-      itemsInPage: useSelector(listBotsItemsInPage),
-      filterChanges: useSelector(listBotsFilterChanges),
+      page: bots.page,
+      sort: bots.sort,
+      itemsInPage: bots.itemsInPage,
+      filterChanges: bots.filterChanges,
+    },
+    cryptocoin_price: {
+      page: cryptocoinsPrice.page,
+      sort: cryptocoinsPrice.sort,
+      itemsInPage: cryptocoinsPrice.itemsInPage,
+      filterChanges: cryptocoinsPrice.filterChanges,
     },
   }
 
@@ -101,9 +101,7 @@ const GlobalWrapper: React.FC = ({ children }) => {
   useEffect(() => {
     dispatch(startConnecting())
     const token = localStorage.getItem("token")
-    if (token) {
-      dispatch(customerLogin(token))
-    }
+    if (token) dispatch(customerLogin(token))
     // eslint-disable-next-line
   }, [])
 
@@ -116,20 +114,20 @@ const GlobalWrapper: React.FC = ({ children }) => {
   }, [logged])
 
   useEffect(() => {
-    if (enitiyParams.country.filterChanges) {
-      //dispatch(requestCountriesPage())
-      requestEntityList("country", "list")
-    }
+    if (enitiyParams.country.filterChanges) requestEntityList("country", "list")
     // eslint-disable-next-line
   }, [enitiyParams.country.filterChanges])
 
   useEffect(() => {
-    if (enitiyParams.bot.filterChanges) {
-      //dispatch(requestBotsPage())
-      requestEntityList("bot", "list")
-    }
+    if (enitiyParams.bot.filterChanges) requestEntityList("bot", "list")
     // eslint-disable-next-line
   }, [enitiyParams.bot.filterChanges])
+
+  useEffect(() => {
+    if (enitiyParams.cryptocoin_price.filterChanges)
+      requestEntityList("cryptocoin_price", "list")
+    // eslint-disable-next-line
+  }, [enitiyParams.cryptocoin_price.filterChanges])
 
   return (
     <>

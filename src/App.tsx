@@ -17,7 +17,6 @@ import Home from "@pages/Home"
 import GlobalWrapper from "@layouts/GlobalWrapper"
 import { useSelector } from "react-redux"
 import { isLogged } from "@store/slices/customersSlice"
-import { ServerRequestData } from "./store"
 
 function App() {
   const logged = useSelector(isLogged)

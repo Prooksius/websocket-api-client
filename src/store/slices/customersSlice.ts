@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { StatusType } from "@components/app/forms/formWrapper/types"
-import type { RootState } from "@store/index"
+import { RootState, store } from "@store/index"
 import type { PayloadAction } from "@reduxjs/toolkit"
+import { toastAlert } from "@config"
 
 export interface CustomersRecord {
   id: number
@@ -63,6 +64,7 @@ export const { startAuth, endAuth, login, logout, setCustomer } = customersSlice
 
 export default customersSlice.reducer
 
+export const listState = (state: RootState) => state.customers
 export const isLogged = (state: RootState) => state.customers.logged
 export const listAuthStatus = (state: RootState) => state.customers.status
 export const listCustomer = (state: RootState) => state.customers.me

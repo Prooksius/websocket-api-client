@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "@store/store"
-import { StatusType } from "@components/app/forms/formWrapper/types"
-import { ListPayload } from ".."
+import type { RootState, ListPayload } from "@store/store"
+import type { StatusType } from "@components/app/forms/formWrapper/types"
 
 export interface CountriesRecord {
   id: number
@@ -132,6 +131,7 @@ export const {
 
 export default CountriesSlice.reducer
 
+export const listState = (state: RootState) => state.countries
 export const listItems = (state: RootState) => state.countries.list
 export const listStatus = (state: RootState) => state.countries.status
 export const listEditStatus = (state: RootState) => state.countries.editStatus
